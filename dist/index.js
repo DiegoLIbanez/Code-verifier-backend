@@ -3,19 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-//configuracion de .env file
+const server_1 = __importDefault(require("./src/server"));
+const logger_1 = require("./src/utils/logger");
+// Configuration the .env file
 dotenv_1.default.config();
-//Create Express App
-const app = (0, express_1.default)();
 const port = process.env.PORT || 5001;
-// Define el first Route de App
-app.get('/', (req, res) => {
-    const data = 'Hellow Work!!!';
-    res.send({ data });
+// Execute SERVER
+server_1.default.listen(port, () => {
+    (0, logger_1.LogSuccess)(`[SERVER ON]: Runing in http://localhost:${port}/api`);
 });
-app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
+// Control SERVER ERROR
+server_1.default.on('error', (error) => {
+    (0, logger_1.LogError)(`[SERVER ERROR]: ${error}`);
 });
 //# sourceMappingURL=index.js.map
